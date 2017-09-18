@@ -77,7 +77,7 @@ void findLength(ListNode* node)
     //return length;    
 }
 
-int recursiveCount = 0;
+int recursiveCount;
 bool recursiveTraverse(ListNode* node)
 {
     if (recursiveCount < mid)
@@ -157,7 +157,12 @@ int main()
         }
 
         cout<<"Length of the SLL is "<<lSLL(head)<<endl;
+
         cout<<"Mid node is "<<midNode->data<<endl;
+	if (oddFlag)
+		recursiveCount = 0;
+	else 
+		recursiveCount = 1;
 		if (isPalindrome(head))
 			cout<<"Palindrome\n";
 		else
