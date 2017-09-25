@@ -1,9 +1,12 @@
 #include <iostream>
 #include <cstring>
+
 #define CHARA 'a'
 #define CHARZ 'z'
 #define CHARAA 'A'
 #define CHARZZ 'Z'
+
+
 using namespace std;
 
 
@@ -23,6 +26,7 @@ int main()
 
 	return 0;
 }
+
 
 
 char* convert(char* str)
@@ -64,6 +68,14 @@ bool isPalindrome(char* str)
 	int l = strlen(str);
 	cout<<l<<endl;
         char* tmp = cmpStr;
+
+bool isPalindrome(char* str)
+{
+	//cout<<"Inside isPlaindrome str - "<<str<<endl;
+	int l = strlen(str);
+	cout<<l<<endl;
+        char* tmp = str;
+
 	l--;
 	int i = 0;
 	while (l >= 0)
