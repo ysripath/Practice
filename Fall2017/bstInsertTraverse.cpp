@@ -38,6 +38,33 @@ public:
 };
 
 
+bool checkBSTValidity(Node* head)
+{
+	if (head ==  NULL)
+		return  true;
+	Node* temp = head;
+	bool flag = true;
+	if (temp->left != NULL && temp->right != NULL)
+	{
+		if (temp->data >= temp->left->data && temp->data < temp->right->data)
+			flag = true;
+		else 
+			flag = false;
+	}
+	else if (temp->left == NULL && temp->right == NULL)
+		flag = true;
+	else if (temp->left == NULL &&  temp->data > temp->right->data)
+	{
+		flag = false;
+	}
+	else if (temp->right == NULL && temp->data < temp->left->data)
+	{
+		flag = false;
+	}
+	return (flag && checkBSTValidity(head->left) && checkBSTValidity(head->right));
+}
+
+
 void traverseBST(Node* head)
 {
 //	Node* temp = head;
@@ -124,6 +151,10 @@ int main()
 	cout<<"BST Traversal\n";
 	traverseBST(head);
 	cout<<endl;
+	if (checkBSTValidity(head))
+		cout<<"Valid BST\n";
+	else
+		cout<<"Not a valid BST\n";
 
 	return 0;
 }
