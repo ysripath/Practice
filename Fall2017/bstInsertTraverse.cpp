@@ -14,7 +14,11 @@ public:
 		Node* right;
 	
 		Node(int val):data(val), left(NULL), right(NULL){}
-		~Node();
+		~Node()
+		{
+			delete left;
+			delete right;
+		}
 		void insertLeft(Node* node)
 		{
 			if (node != NULL)
@@ -37,6 +41,41 @@ public:
 		}
 };
 
+int removeLeafUtil(Node* node)
+{
+	if (node->left == NULL && node->right == NULL)
+		return 0;
+	else
+		return 1;
+}
+
+
+void removeLeafNodes(Node* head)
+{
+	if (head == NULL)
+		return;
+	//if (head->left == NULL && head->right == NULL)
+	//	return;
+	
+	if (head->left != NULL && !removeLeafUtil(head->left))
+	{
+		delete (head->left);
+		head->left = NULL;
+	}
+	if (head->right != NULL && !removeLeafUtil(head->right))
+	{
+		delete (head->right);
+		head->right = NULL;
+	}
+
+	if (head->left != NULL)
+	{
+		removeLeafNodes(head->left);
+	}
+	if (head->right != NULL)
+		removeLeafNodes(head->right);
+	return;	
+}
 
 // find the height of BST
 int findHeight(Node* head)
@@ -183,6 +222,10 @@ int main()
 	cout<<"Total number of nodes in BST "<<findNumberOfNodes(head)<<endl;
 
 	cout<<"Height of the BST is "<<findHeight(head)<<endl;
-
+	cout<<"Remove Leaf nodes\n";
+	removeLeafNodes(head);
+	cout<<"BST Traversal\n";
+        traverseBST(head);
+        cout<<endl;
 	return 0;
 }
