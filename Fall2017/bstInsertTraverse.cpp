@@ -38,6 +38,29 @@ public:
 };
 
 
+// find the height of BST
+int findHeight(Node* head)
+{
+	if (head == NULL)
+		return 0;
+
+	return (1 + max(findHeight(head->left),findHeight(head->right)));
+}
+
+
+// find number of nodes
+int findNumberOfNodes(Node* head)
+{
+	if (head == NULL)
+		return 0;
+	if (head->left == NULL && head->right == NULL)
+		return 1;
+	else
+		return (1+findNumberOfNodes(head->left)+findNumberOfNodes(head->right));	
+
+}
+
+
 bool checkBSTValidity(Node* head)
 {
 	if (head ==  NULL)
@@ -155,6 +178,11 @@ int main()
 		cout<<"Valid BST\n";
 	else
 		cout<<"Not a valid BST\n";
+
+
+	cout<<"Total number of nodes in BST "<<findNumberOfNodes(head)<<endl;
+
+	cout<<"Height of the BST is "<<findHeight(head)<<endl;
 
 	return 0;
 }
