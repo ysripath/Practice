@@ -28,6 +28,49 @@ void display(Node* node)
 }
 
 
+// Utility function to obtain the last node of the SLL
+Node* getPenultimateNode(Node* node)
+{
+	Node* cur;
+	cur = node;
+	while (node->next != NULL)
+	{
+		cur = node;
+		node = node->next;
+	}
+	return cur;
+
+}
+
+// Rotate SLL by specified number of times clockwise
+Node* rotateList(Node* head, int num)
+{
+	if (head == NULL)
+	{
+		cout<<"Empty List\n";
+		return NULL;
+	}
+	if (head->next == NULL)
+		return head;
+
+
+	Node* temp = head;
+
+	Node* pUltimateNode = NULL;
+	while (num != 0)
+	{
+		pUltimateNode = getPenultimateNode(head);
+		Node* tempNode = head;
+		//pUltimateNode->next->next = head;
+		head = pUltimateNode->next;
+		head->next = tempNode;
+		pUltimateNode->next = NULL;	
+		
+		num--;
+	}
+	return head;
+}
+
 Node* sort(Node* head)
 {
 	// With aux space consumption
@@ -102,6 +145,13 @@ int main()
 
 	cout<<"Sorted List is\n";
 	head = sort(head);
+	display(head);
+	
+	cout<<"Enter number of times to rotate SLL in clockwise\n";
+	int num;
+	cin>>num;
+	head = rotateList(head, num);
+	cout<<"After rotation \n";
 	display(head);
 	
 	return 0;
