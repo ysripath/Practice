@@ -71,6 +71,37 @@ Node* rotateList(Node* head, int num)
 	return head;
 }
 
+
+// Rotate SLL anti-clockwise - optimized
+Node* rotateListAC(Node* head, int num)
+{
+	if (head == NULL)
+	{
+		cout<<"Empty list\n";
+		return NULL;
+	}
+
+	if (head->next == NULL)
+		return head;
+
+	Node* temp = head;
+	
+
+	Node* lastNode = getPenultimateNode(head);
+	lastNode = lastNode->next;
+
+	while (num > 0)
+	{
+		temp = head;
+		head = head->next;
+		temp->next = NULL;
+		lastNode->next = temp;
+		lastNode = temp;
+		num--;
+	}
+	return head;
+}
+
 Node* sort(Node* head)
 {
 	// With aux space consumption
@@ -151,7 +182,13 @@ int main()
 	int num;
 	cin>>num;
 	head = rotateList(head, num);
-	cout<<"After rotation \n";
+	cout<<"After clockwise rotation \n";
+	display(head);
+
+	cout<<"Enter number of times to rotate SLL in anticockwise\n";
+	cin>>num;
+	head = rotateListAC(head, num);
+	cout<<"After anticlockwise rotation\n";
 	display(head);
 	
 	return 0;
