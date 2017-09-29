@@ -1,4 +1,7 @@
+// Sort LL contating only 0, 1 and 2 in ascending  order
+
 #include <iostream>
+#include <vector>
 
 
 using namespace std;
@@ -27,12 +30,46 @@ void display(Node* node)
 
 Node* sort(Node* head)
 {
-	// BUbble sort
-	while (size > 0)
+	// With aux space consumption
+	int arr[3] = {0, 0, 0};
+	
+	Node* node = head;
+	while (node != NULL)
 	{
-		
-
+		switch(node->data)
+		{
+			case 0: arr[0]++;
+				break;
+			case 1: arr[1]++;
+				break;
+			case 2: arr[2]++;
+				break;
+			default: cout<<"Wrong input in SLL\n";
+		}
+		node = node->next;
 	}
+
+	node = head;
+	while (node != NULL)
+	{
+		if (arr[0] != 0)
+		{
+			node->data = 0;
+			arr[0]--;
+		}
+		else if (arr[1] != 0)
+		{
+			node->data = 1;
+			arr[1]--;
+		}
+		else if (arr[2] != 0)
+		{
+			node->data = 2;
+			arr[2]--;
+		}
+		node = node->next;
+	}
+	return head;
 }
 
 int main()
