@@ -42,6 +42,27 @@ public:
 };
 
 
+// TOP view of the BST
+// FALSE == LEFT and TRUE == RIGHT
+void topView(Node* head, bool flag)
+{
+	if (head == NULL)
+	{
+		//cout<<"Empty tree\n";
+		return;
+	}
+	if (!flag && head->left != NULL)
+	{
+		topView(head->left, false);
+	}
+	else if (flag && head->right != NULL)
+	{
+		topView(head->right, true);
+	}
+	cout<<head->data<<" ";	
+}
+
+
 // RIght View of the BST
 int rightViewUtil(Node* node, int level, bool tempArr[])
 {
@@ -299,5 +320,11 @@ int main()
 	rightView(head);
 	cout<<endl;
         cout<<endl;
+	cout<<"Top View of the BST\n";
+	topView(head, false);
+	if (head->right != NULL)
+		topView(head->right, true);
+
+	cout<<endl<<endl;
 	return 0;
 }
