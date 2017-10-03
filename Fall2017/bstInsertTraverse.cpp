@@ -42,6 +42,36 @@ public:
 };
 
 
+// RIght View of the BST
+int rightViewUtil(Node* node, int level, bool tempArr[])
+{
+        if (node->right != NULL)
+        {
+                rightViewUtil(node->right, level+1, tempArr);
+        }
+        if (tempArr[level] == false)
+        {
+                cout<<node->data<<" ";
+                tempArr[level] = true;
+        } 
+        if (node->left != NULL)
+        {
+                rightViewUtil(node->left, level + 1, tempArr);
+        }
+}
+
+void rightView(Node* head)
+{
+        if (head == NULL)
+                return;
+
+        cout<<"Right View of the BST\n";
+        // assuming only 1000 nodes are there
+        bool tempArr[1000] = {false};
+
+        rightViewUtil(head, 1, tempArr);
+}
+
 // Left View of the BST
 
 int leftViewUtil(Node* node, int level, bool tempArr[])
@@ -266,6 +296,9 @@ int main()
         //traverseBST(head);
 	cout<<"Left View of the BST\n";
 	leftView(head);
+	cout<<endl<<endl;
+	rightView(head);
+	cout<<endl;
         cout<<endl;
 	return 0;
 }
