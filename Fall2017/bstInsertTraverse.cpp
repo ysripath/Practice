@@ -41,6 +41,44 @@ public:
 		}
 };
 
+
+// Left View of the BST
+
+int leftViewUtil(Node* node, int level, bool tempArr[])
+{
+	if (node->left != NULL)
+	{
+		leftViewUtil(node->left, level+1, tempArr);
+	}
+	if (tempArr[level] == false)
+	{
+		cout<<node->data<<" ";
+		tempArr[level] = true;
+	}
+	if (node->right != NULL)
+	{
+		leftViewUtil(node->right, level + 1, tempArr);
+	}
+}
+
+void leftView(Node* head)
+{
+	if (head == NULL)
+		return;
+	
+	cout<<"Left View of the BST\n";
+	// assuming only 1000 nodes are there
+	bool tempArr[1000] = {false};
+
+	leftViewUtil(head, 1, tempArr);
+}
+
+//RIght View of the BST
+
+//Top view of the BST
+
+// Bottom view of the BST
+
 int removeLeafUtil(Node* node)
 {
 	if (node->left == NULL && node->right == NULL)
@@ -222,10 +260,12 @@ int main()
 	cout<<"Total number of nodes in BST "<<findNumberOfNodes(head)<<endl;
 
 	cout<<"Height of the BST is "<<findHeight(head)<<endl;
-	cout<<"Remove Leaf nodes\n";
-	removeLeafNodes(head);
-	cout<<"BST Traversal\n";
-        traverseBST(head);
+	//cout<<"Remove Leaf nodes\n";
+	//removeLeafNodes(head);
+	//cout<<"BST Traversal\n";
+        //traverseBST(head);
+	cout<<"Left View of the BST\n";
+	leftView(head);
         cout<<endl;
 	return 0;
 }
