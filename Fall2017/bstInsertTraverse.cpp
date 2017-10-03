@@ -71,7 +71,6 @@ void rightView(Node* head)
 
         rightViewUtil(head, 1, tempArr);
 }
-
 // Left View of the BST
 
 int leftViewUtil(Node* node, int level, bool tempArr[])
