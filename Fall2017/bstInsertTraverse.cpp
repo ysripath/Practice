@@ -188,7 +188,7 @@ int findNumberOfNodes(Node* head)
 }
 
 
-bool checkBSTValidity(Node* head)
+/*bool checkBSTValidity(Node* head)
 {
 	if (head ==  NULL)
 		return  true;
@@ -212,8 +212,41 @@ bool checkBSTValidity(Node* head)
 		flag = false;
 	}
 	return (flag && checkBSTValidity(head->left) && checkBSTValidity(head->right));
-}
+}*/
 
+/* Hidden stub code will pass a root argument to the function below. Complete the function to solve the challenge. Hint: you may want to write one or more helper functions.  
+
+The Node struct is defined as follows:
+   struct Node {
+      int data;
+      Node* left;
+      Node* right;
+   }
+*/
+
+bool checkBSTUtil(Node* node, int min, int max)
+{
+    if (node == NULL)
+        return true;
+    if (node->data < min || node->data > max)
+        return false;
+    bool flag = true;
+    if (node->left != NULL)
+        flag = checkBSTUtil(node->left, min, node->data - 1);
+    if (flag && node->right != NULL)
+        flag = checkBSTUtil(node->right, node->data + 1, max);
+    return flag;
+}
+   bool checkBST(Node* node) {
+       if (node == NULL)
+           return true;
+       else if (node->left == NULL && node->right == NULL)
+           return true;
+       //if (node->left != NULL || node->right != NULL)
+       else
+           return checkBSTUtil(node,-1,100000);       
+       
+   }
 
 void traverseBST(Node* head)
 {
@@ -301,7 +334,7 @@ int main()
 	cout<<"BST Traversal\n";
 	traverseBST(head);
 	cout<<endl;
-	if (checkBSTValidity(head))
+	if (checkBST(head))
 		cout<<"Valid BST\n";
 	else
 		cout<<"Not a valid BST\n";
