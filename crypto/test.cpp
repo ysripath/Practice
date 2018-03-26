@@ -15,13 +15,13 @@ int main()
 	if (f.is_open())
 	{
 		string line;
-		while (getline(f, line))
-		{
-			if (line.length() == 0)
-				cout<<"Empty line\n";
-			else 
-				cout<<line<<endl;
-		}	
+		getline(f, line);
+
+		char* buf = (char*)line.c_str();
+		cout<<buf<<endl;
 	}
+
+
+
 	return 0;
 }
