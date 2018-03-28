@@ -1,1 +1,2 @@
-Test message
+0; ; 1; (Alice, 5000)
+
