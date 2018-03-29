@@ -155,6 +155,23 @@ std::string& fix_newlines(std::string& s)
     return s;
 }
 
+std::string getHash(std::string inputStr)
+{
+unsigned char buf[SHA_DIGEST_LENGTH] = { '\0' };
+	char inputBuf[1000] = { '\0' };
+	sprintf(inputBuf, "%s", inputStr.c_str());
+
+	SHA256((unsigned char*)inputBuf, strlen(inputBuf), (unsigned char*)&buf);
+	char buf2[SHA_DIGEST_LENGTH * 2 + 1];
+	for (int i = 0; i < SHA_DIGEST_LENGTH; i++)
+		sprintf(&buf2[i * 2], "%02x", (unsigned int)buf[i]);
+	//cout << mdstr << endl;
+	std::string transId ="";
+	for (int i = 0; i < 8; i++)
+		transId += buf2[i];
+	return transId;
+}
+
 int main()
 {
 	std::ifstream iF("message.txt");
@@ -168,7 +185,7 @@ int main()
   //ifstream infile { "private.pem" };
    //std::string privateKey { istreambuf_iterator<char>(infile), istreambuf_iterator<char>() };
 
-std::ifstream t("private.pem");
+std::ifstream t("alicePrivate.pem");
 std::string privateKey((std::istreambuf_iterator<char>(t)),
                  std::istreambuf_iterator<char>());
 
@@ -176,13 +193,13 @@ std::string privateKey((std::istreambuf_iterator<char>(t)),
   RSA* privateRSA = createPrivateRSA(privateKey);
   unsigned char* encMessage;
   char* base64Text; // = "fFZ5j4MEXF7eIKiWYpe+sE+sBQTy241Jy3lxZdNHqhdljA7vBNu2LZaDr8JfXIq7\npUqZSMDkO6KKhClDInnXbDkAq4F7WXu4EV4xQJUb+CX2foW0l/9lSdM64w1ui+jB\nSSmeTwlnqDaoSMbiQyzx5yFSZLGUCmWxdcPNIMzek4h8qOU0FNBGGEOqjNhP94/y\nmMYXxuRnZq4JtSEiKAKtasX7QOxWnLwYRifulQUNNwIOP2ro2VdXJYtH8UK9K0Sv\nu1CiOhM4IBBG1Q1o8BXe2VZGfix5OLCvB7Vu+MBpakqg9yC557aJLkoRVj+c39yD\nZOvgUbspUb37/1CsyaEL0w==\n";
- std::ifstream iS("sign.txt");
+/* std::ifstream iS("sign.txt");
 	std::string base64;
 	getline(iS, base64);
 	base64 = fix_newlines(base64);
 	std::cout<<"Base - "<<base64<<std::endl;
 	base64Text = (char*)base64.c_str();
-
+*/
 // = "qXJKCyq95OEmB/L90jyY+ve3mJy3eeGiVeEaa1sBZoJeCuhVrHzXw3azPWvDQYxt\nPZz4QZynpiNewftHUkK+R52ZcIZ4Qzzvx3d6tjMUwiebuVYVLDDBvgsCBlx/94HI\naIN4Ngj8pTYHXdVxokrA32Yxz6PuFK2Xl+aqoDKvDckxhMX8KyRgaqc6W5Zq/+0t\ngcQOXcxTsDwp5AG0mOR1NyllKaCjjmpcdfQt3nhmrJq+TSzb++6KmcpUFqAR7pzM\npUVbvlxF1gb77sglhY3aYzbDXhBad5vYXiWJj0F3O5J3ZoVdHHjZNoHux5bUSRYq\n/oRmZ5BbtAh1SZjR709a0Q==\n";
 	/*std::string tempS = "qXJKCyq95OEmB/L90jyY+ve3mJy3eeGiVeEaa1sBZoJeCuhVrHzXw3azPWvDQYxtPZz4QZynpiNewftHUkK+R52ZcIZ4Qzzvx3d6tjMUwiebuVYVLDDBvgsCBlx/94HIaIN4Ngj8pTYHXdVxokrA32Yxz6PuFK2Xl+aqoDKvDckxhMX8KyRgaqc6W5Zq/+0tgcQOXcxTsDwp5AG0mOR1NyllKaCjjmpcdfQt3nhmrJq+TSzb++6KmcpUFqAR7pzMpUVbvlxF1gb77sglhY3aYzbDXhBad5vYXiWJj0F3O5J3ZoVdHHjZNoHux5bUSRYq/oRmZ5BbtAh1SZjR709a0Q==";
 	char base64Text[1000];
@@ -197,17 +214,20 @@ pUVbvlxF1gb77sglhY3aYzbDXhBad5vYXiWJj0F3O5J3ZoVdHHjZNoHux5bUSRYq
 
 // = "nLCn8A1gxJZoKO48sa0ieWGdCMsW5Vt0gXbJPyXVZuDAOmgsGcS8YhoSjvuEFegrtjUGEUbyJOigkCePa1ouBnWP8KdCeOWbx92aoVQfZ24NR6pM0mC0dcudYyzJM97qO7Y0NoW5QLPPNWEY13y+2lTVeiZ26uvfY8bLvAosouY36IRuxu4eH+E/5aYnvuA4UEz0yVaXWOj0gvuwzuGrLnDz8n7dKnQeHZzcqiaQ8WyFWoJy+bwgGHQwqdBWNl0yPwygu9E1quCyK1L+LGkpPT5j3mzR48ubXBw7I9BbYxYjfhjRt7iTKFTp+5UbUPOp2OsrvszkF/jNv9DjJ3igYA==";
   size_t encMessageLength;
-  RSASign(privateRSA, (unsigned char*) plainText.c_str(), plainText.length(), &encMessage, &encMessageLength);
- // Base64Encode(encMessage, encMessageLength, &base64Text);
+	std::string hash = getHash(plainText);
+  //RSASign(privateRSA, (unsigned char*) plainText.c_str(), plainText.length(), &encMessage, &encMessageLength);
+RSASign(privateRSA, (unsigned char*) hash.c_str(),hash.length(), &encMessage, &encMessageLength);
+	std::cout<<encMessage<<std::endl;
+  Base64Encode(encMessage, encMessageLength, &base64Text);
   	free(encMessage);
   //return base64Text;
 	std::cout<<"Base64-> "<<base64Text<<"\n";
 
-  std::ifstream t1("public.pem");
+  std::ifstream t1("alicePublic.pem");
 std::string publicKey((std::istreambuf_iterator<char>(t1)),
                  std::istreambuf_iterator<char>());
 
- if (verifySignature(publicKey, plainText, base64Text))
+ if (verifySignature(publicKey, hash, base64Text))
    std::cout<<"Verification OK\n";
  else 
   std::cout<<"Verification fail\n";
