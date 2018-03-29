@@ -185,7 +185,8 @@ int main()
   //ifstream infile { "private.pem" };
    //std::string privateKey { istreambuf_iterator<char>(infile), istreambuf_iterator<char>() };
 
-std::ifstream t("alicePrivate.pem");
+//std::ifstream t("alicePrivate.pem");
+std::ifstream t("bobPrivate.pem");
 std::string privateKey((std::istreambuf_iterator<char>(t)),
                  std::istreambuf_iterator<char>());
 
@@ -214,20 +215,22 @@ pUVbvlxF1gb77sglhY3aYzbDXhBad5vYXiWJj0F3O5J3ZoVdHHjZNoHux5bUSRYq
 
 // = "nLCn8A1gxJZoKO48sa0ieWGdCMsW5Vt0gXbJPyXVZuDAOmgsGcS8YhoSjvuEFegrtjUGEUbyJOigkCePa1ouBnWP8KdCeOWbx92aoVQfZ24NR6pM0mC0dcudYyzJM97qO7Y0NoW5QLPPNWEY13y+2lTVeiZ26uvfY8bLvAosouY36IRuxu4eH+E/5aYnvuA4UEz0yVaXWOj0gvuwzuGrLnDz8n7dKnQeHZzcqiaQ8WyFWoJy+bwgGHQwqdBWNl0yPwygu9E1quCyK1L+LGkpPT5j3mzR48ubXBw7I9BbYxYjfhjRt7iTKFTp+5UbUPOp2OsrvszkF/jNv9DjJ3igYA==";
   size_t encMessageLength;
-	std::string hash = getHash(plainText);
-  //RSASign(privateRSA, (unsigned char*) plainText.c_str(), plainText.length(), &encMessage, &encMessageLength);
-RSASign(privateRSA, (unsigned char*) hash.c_str(),hash.length(), &encMessage, &encMessageLength);
+	//std::string hash = getHash(plainText);
+ RSASign(privateRSA, (unsigned char*) plainText.c_str(), plainText.length(), &encMessage, &encMessageLength);
+//RSASign(privateRSA, (unsigned char*) hash.c_str(),hash.length(), &encMessage, &encMessageLength);
 	std::cout<<encMessage<<std::endl;
   Base64Encode(encMessage, encMessageLength, &base64Text);
   	free(encMessage);
   //return base64Text;
 	std::cout<<"Base64-> "<<base64Text<<"\n";
 
-  std::ifstream t1("alicePublic.pem");
+  //std::ifstream t1("alicePublic.pem");
+	std::ifstream t1("bobPublic.pem");
 std::string publicKey((std::istreambuf_iterator<char>(t1)),
                  std::istreambuf_iterator<char>());
-
- if (verifySignature(publicKey, hash, base64Text))
+ //char* base64 = "C7GLd/TPZ8awM+OGjOimg72mb3/ZM+Fk9xRLh9NFLqI3r0WrOgj3BYqhJjEnlVdq\n2pa14nVG3CB2dX/zRShHT9hYtS91gUJj0XZc2IjcqQqhj/8PwAqwZNtXaTG6Og1M\n4CdA65qrPtJ3IViZC6RUu7Vm/eOVwBtKxpE4FjYE7O0xf7PzWW5lpBIokUu04FG4\nUtV92WcVRijXAhR4iyRz/V998WgLmF6n2th7E4wDSpvLbNC+GVXEHwHzNiJahNbW\n+K+nM1Ue49fp31VT4qHyOXWIrIAH298M5kllKXUMmkx7xT391cgvVQOrimn+YvU/\nOEK40vhe/VGk/nRBHkiraQ==\n";
+//"Jy7Xe3bXAEyQPETu3cFKtr3eXGZp9Ii2aNJJfOMRp6YdFIcYYDQ6TsTrsOLQ3xo8\n8y5NE5OwKGuYEpuR5f9PhH8jxkt2uRwJUU0mXqcS3VxAJEpXuP6JNK1soWMhMrc8\nFixHh32YucYL3d4JZ4bRPmlTgsdYgOIco5QdZ2JTJ+KYRh8/p80lWjE4vaF4smJs\nngxv9hrkL7senBySFU+wis/hu0BjioTGpoQCPqD18CqGL2FF2RbBYmpaZ+arg+EW\ns3Cvjni9mkbkgQ4jwqQJ8yMWVVcNwLu5tdUpnMrXjGsApD4MDIOGdfTA1CU657C7\nciLZhnuhO9O8fFK9jJ0uUw==\n";
+ if (verifySignature(publicKey, plainText, base64Text))
    std::cout<<"Verification OK\n";
  else 
   std::cout<<"Verification fail\n";
